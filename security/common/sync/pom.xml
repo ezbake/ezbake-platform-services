@@ -98,33 +98,6 @@
                     <skipTests>${jce.unlimited.tests.skip}</skipTests>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <overWriteReleases>false</overWriteReleases>
-                    <overWriteSnapshots>true</overWriteSnapshots>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>ezbake</groupId>
-                            <artifactId>local-redis</artifactId>
-                            <version>${project.version}</version>
-                            <type>tar.gz</type>
-                            <classifier>bin</classifier>
-                            <outputDirectory>${project.build.testOutputDirectory}/local-redis</outputDirectory>
-                        </artifactItem>
-                    </artifactItems>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>
