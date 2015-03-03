@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true">
+
+    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>localhost</syslogHost>
+        <facility>LOCAL0</facility>
+        <suffixPattern>${HOSTNAME} %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</suffixPattern>
+    </appender>
+
+
+    <!--Daily rolling file appender -->
+    <if condition='isDefined("log_file")'>
+        <then>
+            <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <File>${log_file}</File>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>${log_file}.%d{yyyy-MM-dd}.log</FileNamePattern>
+                </rollingPolicy>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout">
+                        <pattern>${HOSTNAME} %d{ISO8601} [%thread] %-5level %logger{36} - %msg%n</pattern>
+                    </layout>
+                </encoder>
+            </appender>
+            <root level="INFO">
+                <appender-ref ref="FILE" />
+                <appender-ref ref="SYSLOG" />
+            </root>
+        </then>
+    </if>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="SYSLOG" />
+    </root>
+
+</configuration>

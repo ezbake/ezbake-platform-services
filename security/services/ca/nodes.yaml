@@ -1,0 +1,68 @@
+#   Copyright (C) 2013-2014 Computer Sciences Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+# Vagrant Node definitions
+---
+domain: local.ezbake.org
+first_ip: 192.168.22.1 # first IP should end in 1, VM IPs will start with 2
+
+# Node definitions
+# Options:
+#    name: name/hostname of the vagrant VM created. should be unique.
+#    box:  name of the vagrant box
+#    box_url: URL to download the box if the named box doesn't exist
+#    with: array of optional components to include in the VM
+#          Available options are:
+#              zookeeper         - currently only single node configuration)
+#              hadoop    (cdh4)  - currently only supports pseudo distributed configuration
+#              accumulo  (1.6.0) - needs hadoop on the same node
+#              pyenv             - installs pyenv for vagrant user
+#              mvn               - installs mvn for vagrant user and links it to the host m2 settings and repo
+nodes:
+  -
+    name: build
+    box: centos65
+    box_url: https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box
+    with:
+      - pyenv
+      - mvn
+    users:
+      - ezca
+# Service mappings
+#     Common services that are shared between VMs are not provisioned using the
+#     node 'with' option. Instead, the definitions are supplied in this mapping
+#
+#     Node names should be specified as an array under the service
+#
+# Available services:
+#   zookeeper                - currently installs zookeeper in standalone mode, there should only be one
+#   hadoop                   - currently installs hadoop in pseudo distributed mode, there should be only one
+#   accumulo                 - status: unknown
+#   accumulo14               - status: unknown
+service_mappings:
+  zookeeper:
+    - zk
+  hadoop:
+    - hdp
+  accumulo:
+  accumulo14:
+    - zk
+
+# Accumulo Instance configuration
+accumulo_instance:
+  name: ezbake
+  root_pass: secret
+  root_auth:
+  tables: test_table
+  users: ezbake

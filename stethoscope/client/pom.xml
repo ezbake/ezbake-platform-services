@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ezbake</groupId>
+        <artifactId>stethoscope-parent</artifactId>
+        <version>2.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>ezbake-discovery-stethoscope-client</artifactId>
+    <name>EzBake Stethoscope Client</name>
+
+    <dependencies>
+        <!-- Third-Party dependencies -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>args4j</groupId>
+            <artifactId>args4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+
+        <!-- EzBake dependencies -->
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-base-thrift-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>thrift-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-configuration-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-discovery-servicediscovery</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-discovery-stethoscope-thrift</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>ezbake.discovery.stethoscope.client.StethoscopeClient</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>rpmbuild</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <configuration>
+                            <name>${project.artifactId}</name>
+                            <mappings combine.self="override">
+                                <mapping>
+                                    <directory>/opt/ezbake</directory>
+                                    <filemode>755</filemode>
+                                    <groupname>ezbake</groupname>
+                                    <username>ezbake</username>
+                                    <directoryIncluded>true</directoryIncluded>
+                                </mapping>
+                                <mapping>
+                                    <directory>/opt/ezbake/${project.artifactId}</directory>
+                                    <filemode>755</filemode>
+                                    <groupname>ezbake</groupname>
+                                    <username>ezbake</username>
+                                    <directoryIncluded>true</directoryIncluded>
+                                </mapping>
+                                <mapping>
+                                    <directory>/opt/ezbake/${project.artifactId}/bin</directory>
+                                    <filemode>755</filemode>
+                                    <groupname>ezbake</groupname>
+                                    <username>ezbake</username>
+                                    <directoryIncluded>true</directoryIncluded>
+                                </mapping>
+                                <mapping>
+                                    <directory>/opt/ezbake/${project.artifactId}/bin</directory>
+                                    <filemode>644</filemode>
+                                    <groupname>ezbake</groupname>
+                                    <username>ezbake</username>
+                                    <directoryIncluded>false</directoryIncluded>
+                                    <sources>
+                                        <source>
+                                            <location>
+                                                target/${project.artifactId}-${project.version}-jar-with-dependencies.jar
+                                            </location>
+                                            <destination>${project.artifactId}-${project.version}.jar</destination>
+                                        </source>
+                                        <softlinkSource>
+                                            <location>${project.artifactId}-${project.version}.jar</location>
+                                            <destination>${project.artifactId}.jar</destination>
+                                        </softlinkSource>
+                                    </sources>
+                                </mapping>
+                            </mappings>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

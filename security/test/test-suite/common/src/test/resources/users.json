@@ -1,0 +1,139 @@
+{
+    "Jim Bob": {
+        "name": "Jim Bob",
+        "uid": "BobJim.1234567890",
+        "phoneNumber": "555-555-5555",
+        "company": "CSC",
+        "emails": {
+            "work": "jbob@work.com",
+            "home": "jbob@home.com",
+            "mobile": "jbob@mobile.com"
+        },
+        "authorizations": {
+            "level":"high",
+            "auths":["ezbake", "42six"],
+            "citizenship":"USA",
+            "organization": "CSC"
+        },
+        "groups": {
+            "EZBAKE": [
+                "ADMIN",
+		"USER"
+            ]
+        },
+        "communities": [{
+            "communityType": "company",
+            "organization": "CSC",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[],
+	    "communityName": "name"
+        }]
+    },
+    "EzbakeClient": {
+        "name": "Ezbake Client",
+        "uid": "EzbakeClient.1234567890",
+        "authorizations": {
+            "auths":["low", "ezbake"],
+            "citizenship":"USA",
+            "level":"med",
+            "organization": "org"
+        },
+        "groups": {
+            "EzBake": [
+                "Core",
+                "Frack"
+            ]
+        },
+        "communities": [{
+            "communityName": "name",
+            "communityType": "product",
+            "organization": "ezbake",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[]
+        }]
+    },
+    "EzbakeAdmin": {
+        "name": "Ezbake Admin",
+        "uid": "EzbakeAdmin.1234567890",
+        "authorizations": {
+            "auths":["admin", "ezbake", "sysadmin"],
+            "citizenship":"USA",
+            "level":"high",
+            "organization": "org"
+        },
+        "groups": {
+            "EzBake": [
+                "Core",
+                "Frack",
+                "Security"
+            ]
+        },
+        "communities": [{
+            "communityName": "name",
+            "communityType": "group",
+            "organization": "team",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[]
+        }]
+    },
+    "empty auth": {
+        "name": "Ezbake Admin",
+        "uid": "EzbakeAdmin.1234567890",
+        "authorizations": {
+            "auths":["","admin", "ezbake", "sysadmin"],
+            "citizenship":"USA",
+            "level":"high",
+            "organization": "org"
+        },
+        "groups": {
+            "EzBake": [
+                "Core",
+                "Frack",
+                "Security"
+            ]
+        },
+        "communities": [{
+            "communityName": "name",
+            "communityType": "group",
+            "organization": "team",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[]
+        }]
+    },
+    "John Doe": {
+        "name": "John Doe",
+        "uid": "JohnDoe.1234567890",
+        "phoneNumber": "555-555-5555",
+        "company": "CSC",
+        "emails": {
+            "work": "jdoe@work.com",
+            "home": "jdoe@home.com",
+            "mobile": "jdoe@mobile.com"
+        },
+        "authorizations": {
+            "level":"high",
+            "auths":[],
+            "citizenship":"usa",
+            "organization": "py"
+        },
+        "groups": {
+            "EZBAKE": [
+                "ADMIN",
+		"USER"
+            ],
+	    "Message": ["admin"]
+        },
+        "communities": [{
+            "communityType": "company",
+            "organization": "CSC",
+            "topics":["TopicA"],
+            "regions":["usa", "Region1"],
+            "groups":["ezbake", "42six", "high"],
+	    "communityName": "G"
+        }]
+    }
+}

@@ -1,0 +1,31 @@
+#!/bin/sh
+#   Copyright (C) 2013-2015 Computer Sciences Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+dir=${OPENSHIFT_REPO_DIR}/config
+secret=$OPENSHIFT_SECRET_TOKEN
+binary="/opt/ezbake/ezbake-utils-encrypted-properties-encryption-app/ezbake-utils-encrypted-properties-encryption-app.jar"
+
+if [ -e ${dir}/pre_deploy.sh ]
+then
+        chmod +x ${dir}/pre_deploy.sh
+        ${dir}/pre_deploy.sh
+fi
+
+for file in `ls ${dir}/encrypted_*.properties`
+do
+  echo "encrypting $file"
+  java -jar ${binary} --input-file $file --secret $secret --output-file $file
+done
+

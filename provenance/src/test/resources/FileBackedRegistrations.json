@@ -1,0 +1,63 @@
+[
+{
+   "securityId": "SecurityClientTest",
+   "level": "high",
+   "authorizations": ["ezbake", "42six", "CSC", "USA", "carry", "help", "protect", "servant", "nan", "Stark"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB"
+ },
+ {
+   "securityId": "EzPy",
+   "level": "med",
+   "authorizations": ["ezbake", "python"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB"
+
+ },
+ {
+    "securityId": "ExSearch",
+    "level": "high",
+    "authorizations": ["ezbake", "admins", "leaders"],
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3wDb+w2L7C6pHRkp7HwQ
+                  iU42TCmMXGh/Ir+VoWtDWOnmTFpyXK8jilkSxYufcKF+xV71aiepx7/h6dYx5pFk
+                  YO+cn6VfQQwC+KCY+l4Q8/c91snNEMWindmZ7izpMIr4tczHcnT0Kh/tKf8hYBQB
+                  zLpUOYZNhAMgaAPOXNsxFSq7dM0xmCrCDgYUD4A/OcdELG7SWst+cW7fqTGqGmvJ
+                  pmQo8nwyGNYBpmkXFGiuPgWTDvWYzo9r7pDgdTQa367sj4pIiods/nJZVfk1RJ5r
+                  kbln0wno52VRKkUaEzPiECnidhITOppzYy9Lm9+dLxbkfYEAjzyYSg9yfYDTV4pH
+                  jwIDAQAB"
+ },
+ {
+    "securityId": "client",
+    "level": "low",
+    "authorizations": ["ezbake"],
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                  UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                  TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                  zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                  CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                  U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                  1wIDAQAB"
+ },
+  {
+    "securityId": "02",
+    "level": "low",
+    "authorizations": ["ezbake"],
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2BagMyg5z2SIT2UtVYUw
+                  VxThOsDfv41bNkRz2Nlk0pORcZihh+aCk3A5n5DMTMRfWkRsbJl4FnRqRWxkNqZx
+                  Th3dQ3LvKIZobnTSzvQvEXbNHGOCzYQlWB6R42Ae/9/p5lGSDBUILJnlhRYMD6qt
+                  MTfoozEsZLrqkfEBC+Srhd03HM74MXn087UFWqwBKgP3eOCnAUPM7ZvcIS5vDQaL
+                  6dKbZVLerW29d2w9yRxdSIEcI53m29VDKy23BJfEGezPgoZIxM1Wh+pBNovAancE
+                  kK5LarqeVuURwlUR1xs3ZL2SaPA9XFTn/uym2FnszKaqaUbSv4fkRl17XFa7Z32a
+                  vQIDAQAB"
+  }
+]

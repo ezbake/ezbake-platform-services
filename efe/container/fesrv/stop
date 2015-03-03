@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DELETEFILE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )""/wd/delete_this_file_to_shutdown_efe"
+rm $DELETEFILE
+

@@ -1,0 +1,51 @@
+<assembly>
+    <id>vagrant</id>
+    <!-- START SNIPPET: formats -->
+    <formats>
+        <format>dir</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <!-- END SNIPPET: formats -->
+    <!-- START SNIPPET: fileSets -->
+    <fileSets>
+        <fileSet>
+            <directory>src/main/scripts</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>vagrant/ezconfig/config</directory>
+            <outputDirectory>config</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>thrift-runner.jar</include>
+                <include>ezdeployer-cli.jar</include>
+                <include>slf4j-nop.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>target/${artifactId}-${version}-app.jar</source>
+            <outputDirectory>bin</outputDirectory>
+            <destName>ezdeployer.jar</destName>
+        </file>
+    </files>
+    <!-- END SNIPPET: fileSets -->
+</assembly>

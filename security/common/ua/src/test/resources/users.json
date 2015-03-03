@@ -1,0 +1,106 @@
+{
+    "John Snow": {
+        "name": "John Snow",
+        "uid": "jslongclaw",
+        "phoneNumber": "123-456-7890",
+        "company": "Stark",
+        "emails": {
+            "work": "jsnow@cb.com",
+            "home": "ghost@dire.com"
+        },
+         "groups": {
+            "EzBake": [
+                "Core"
+            ],
+            "_Ez_internal_project_" : [
+                "_Ez_administrator"
+            ],
+            "NightsWatch": [
+                "castleblack",
+                "wolves"
+            ]
+        },
+        "authorizations": {
+            "level":"high",
+            "auths":["J", "O", "H", "N"],
+            "communityAuthorizations": ["ca_topic"],
+            "citizenship":"USA",
+            "organization": "abc"
+        },
+
+        "communities": [{
+            "communityName": "starkies",
+            "communityType": "familiar",
+            "organization": "dire",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[]
+        }]
+    },
+    "Arya Stark": {
+       "name": "Arya Stark",
+       "uid": "aaneedle",
+       "company": "Stark",
+       "emails": {
+         "work" : "astark@braavos.com",
+         "home": "nymeria@dire.com"
+       },
+       "groups": {
+            "EzBake": [
+                "Core"
+            ],
+            "Braavos": [
+                "sword",
+                "fighter"
+            ]
+        },
+        "authorizations": {
+            "level":"low",
+            "authss":["N", "Y", "M", "E"],
+            "citizenship":"USA",
+            "organization": "abc"
+        },
+        "communities": [{
+            "communityName": "starkies",
+            "communityType": "familiar",
+            "organization": "dire",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[]
+        }]
+    },
+    "Tyrion Lannister": {
+        "name": "Tyrion Lannister",
+        "uid": "tyrionlannister",
+        "phoneNumber": "555-555-5555",
+        "company": "Lannister",
+        "emails": {
+            "work": "tlannister@lan.com",
+            "home": "tyrion@gold.com"
+        },
+         "groups": {
+            "EzBake": [
+                "Core"
+            ],
+            "Lannister": [
+                "shunned",
+                "casterly rock"
+            ]
+        },
+        "authorizations": {
+            "level":"high",
+            "authss":["T", "Y", "R", "I"],
+            "citizenship":"USA",
+            "organization": "abc"
+        },
+
+        "communities": [{
+            "communityName": "lanners",
+            "communityType": "familiar",
+            "organization": "lan",
+            "topics":["TopicA"],
+            "regions":["Region1"],
+            "groups":[]
+        }]
+    }
+}

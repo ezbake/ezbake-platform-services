@@ -1,0 +1,103 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          ezReverseProxy
+# Required-Start:    networking
+# Required-Stop:     networking
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: This is the ezReverseProxy
+# Description:       This is the ezReverseProxy
+#                    This starts up nginx and the python service
+### END INIT INFO
+
+# Source function library.
+. /etc/init.d/functions
+
+servicename=EzFrontend
+RETVAL=0
+LOCKFILE=/var/lock/subsys/${servicename}
+LOGSTASH_SCRIPT=/opt/ezbake/ezbake-logstash-helper/logstash.sh
+
+EFE_PREFIX=/opt/ezfrontend
+EFE_LOGS=${EFE_PREFIX}/logs/
+EFE_USER=ezfrontend
+EFE_APP_NAME=EzBakeFrontend
+EFE_SRV_NAME=EzBakeFrontend
+DELETEFILE="${EFE_PREFIX}/wd/delete_this_file_to_shutdown_efe"
+
+EFE_START="${EFE_PREFIX}/app/ezReverseProxy/ezReverseProxy &>/dev/null &"
+EFE_STOP="rm $DELETEFILE"
+
+
+start() {
+  echo -n "Starting ${servicename}: "
+
+  # start service
+  setcap 'cap_net_bind_service=+ep' "${EFE_PREFIX}/app/nginx"
+  export EZBAKE_ENCRYPTION_SECRET=$(runuser ${EFE_USER} -l sh -c 'echo ${EZBAKE_ENCRYPTION_SECRET}')
+  ulimit -n 64000
+  daemon --user $EFE_USER $EFE_START
+  RETVAL=$?
+  [ $RETVAL -eq 0 ] && touch $LOCKFILE
+
+  # Logstash
+  [ -f $LOGSTASH_SCRIPT ] && $(runuser $EFE_USER -c 'source '$LOGSTASH_SCRIPT';export JAVA_OPTS="-Djava.io.tmpdir=/opt/logstash/tmp";start_logstash '${EFE_APP_NAME}' '${EFE_SRV_NAME}' '${EFE_PREFIX}'/logstash '${EFE_LOGS}' &>/dev/null')
+
+  echo
+  return $RETVAL
+}  
+
+stop() {
+  echo -n "Shutting down ${servicename}: "
+
+  #stop service
+  $EFE_STOP && success || failure
+  RETVAL=$?
+  [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
+
+  # Logstash
+  [ -f $LOGSTASH_SCRIPT ] && $(runuser $EFE_USER -c 'source '$LOGSTASH_SCRIPT';export JAVA_OPTS="-Djava.io.tmpdir=/opt/logstash/tmp";stop_logstash '${EFE_APP_NAME}' '${EFE_SRV_NAME}' '${EFE_PREFIX}'/logstash '${EFE_LOGS}' &>/dev/null')
+
+  echo
+  return $RETVAL
+}
+
+case "$1" in
+  start)
+  start
+  ;;
+  stop)
+  stop
+  ;;
+  status)
+  echo -n "Status of ${servicename}: "
+  if [ -f "$DELETEFILE" ]; then
+    echo "running"
+    RETVAL=0
+  elif [ -f "$LOCKFILE" ]; then
+    echo -n "dead"
+    RETVAL=2
+  else
+    echo -n "dead"
+    RETVAL=3
+  fi
+  echo
+  ;;
+  restart)
+  stop
+  sleep 1
+  start
+  ;;
+  reload)
+  #<cause the service configuration to be reread, either with
+  #kill -HUP or by restarting the daemons, in a manner similar
+  #to restart above>
+  ;;
+  *)
+  echo "Usage: ${servicename} {start|stop|status|reload|restart}"
+  exit 1
+  ;;
+esac
+exit $RETVAL
+
+

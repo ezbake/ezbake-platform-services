@@ -1,0 +1,19 @@
+#This file is part of the ezfrontend RPM package
+/opt/ezfrontend/logs/efe_control.log {
+   create
+}
+/opt/ezfrontend/logs/eznginx_module.log {
+   copytruncate
+}
+/opt/ezfrontend/logs/nginx_error.log /opt/ezfrontend/logs/http_access.log {
+   create
+   sharedscripts
+   postrotate
+       [ ! -f /opt/ezfrontend/wd/nginx.pid ] || kill -s USR1 `cat /opt/ezfrontend/wd/nginx.pid`
+   endscript
+}
+/opt/ezfrontend/logs/logstash.log {
+   create
+   missingok
+}
+

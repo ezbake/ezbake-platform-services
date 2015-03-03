@@ -1,0 +1,129 @@
+#!/bin/bash
+#   Copyright (C) 2013-2015 Computer Sciences Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+
+### BEGIN INIT INFO
+# Provides:          EzSecurity
+# Required-Start:    networking
+# Required-Stop:     networking
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: This is EzSecurity
+# Description:       This is EzSecurity
+#                    This starts up the EzSecurity service
+### END INIT INFO
+
+# Source function library.
+. /etc/init.d/functions
+
+EZ_PREFIX="/opt/ezsecurity"
+PORT=30000
+APP_NAME=common_services
+
+if [ -f "${EZ_PREFIX}/bin/ezsecurity-env.sh" ]; then
+    . "${EZ_PREFIX}/bin/ezsecurity-env.sh"
+fi
+
+if [ -f "${EZ_PREFIX}/bin/ezsecurity-env-override.sh" ]; then
+    . "${EZ_PREFIX}/bin/ezsecurity-env-override.sh"
+fi
+
+SERVICE_NAME=${SERVICE_NAME:-EzBakeSecurityService}
+
+servicename=EzSecurity
+RETVAL=0
+LOCKFILE=/var/lock/subsys/${servicename}
+PIDFILE="${EZ_PREFIX}/${servicename}.pid"
+
+JAVA_OPTS="-jar ${THRIFT_RUNNER_JAR} ${THRIFT_RUNNER_OPTS} ${ADDITIONAL_THRIFT_RUNNER_OPTS}"
+
+start() {
+    echo -n "Starting ${servicename}: "
+
+    daemon --user $EZ_USER --pidfile ${PIDFILE} "cd \"${EZ_PREFIX}\" && { ${STETHOSCOPE} & java ${JAVA_OPTS} ; } &>/dev/null & echo \$! > ${PIDFILE}"
+    RETVAL=$?
+    [ $RETVAL -eq 0 ] && touch $LOCKFILE
+    echo
+    start_logstash
+    return $RETVAL
+}
+
+stop() {
+    PID=$(<${PIDFILE})
+    echo -n "Shutting down ${servicename} (${PID}): "
+    pkill -TERM -P ${PID}
+    RETVAL=$?
+    rm -f $PIDFILE
+    rm -f $LOCKFILE
+    echo
+    stop_logstash
+    return $RETVAL
+}
+
+
+LOGSTASH_HELPER=/opt/ezbake/ezbake-logstash-helper/logstash.sh
+function start_logstash() {
+    if [ -f "${LOGSTASH_HELPER}" ]; then
+	runuser ${EZ_USER} <<-END
+	source "${LOGSTASH_HELPER}"
+	start_logstash "${APP_NAME}" "${SERVICE_NAME}" "${EZ_PREFIX}/logstash"
+	END
+    fi
+}
+
+function stop_logstash() {
+    if [ -f "${LOGSTASH_HELPER}" ]; then
+	runuser ${EZ_USER} <<-END
+	source "${LOGSTASH_HELPER}"
+	stop_logstash "${APP_NAME}" "${SERVICE_NAME}" "${EZ_PREFIX}/logstash"
+	END
+    fi
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    status)
+	echo -n "Status of ${servicename}: "
+	PID=`cat "$PIDFILE"`
+	if [ -f "$PIDFILE" -a -d "/proc/${PID}" ]; then
+		echo -n "running"
+		RETVAL=0
+	elif [ -f "$LOCKFILE" ]; then
+		echo -n "dead"
+		RETVAL=2
+	else
+		echo -n "dead"
+		RETVAL=3
+	fi
+	echo
+	;;
+    restart)
+    stop
+	start
+	;;
+    reload)
+	;;
+    *)
+	echo "Usage: ${servicename} {start|stop|status|reload|restart}"
+	exit 1
+	;;
+esac
+exit $RETVAL
+
