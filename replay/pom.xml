@@ -66,7 +66,7 @@
         <!-- Test dependencies -->
         <dependency>
             <groupId>ezbake</groupId>
-            <artifactId>warehaus</artifactId>
+            <artifactId>warehaus-service</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
