@@ -39,10 +39,11 @@ setup(
         'PyOpenSSL==0.13.1',
         'pycrypto==2.6.1',
         'kazoo',
-        'ezdiscovery==2.0',
-        'EzConfiguration==2.0',
-        'ezbake-base-thrift==2.0',
-        'EzTSSL==2.0',
+        'ezbake-configuration>=2.1rc1.dev',
+        'ezbake-discovery>=2.1rc1.dev',
+        'ezbake-base-thrift>=2.1rc1.dev',
+        'ezsecurity-services>=2.1rc1.dev',
+        'ezbake-thrift-utils>=2.1rc1.dev',
         'EzPersist==2.0'
     ]
 )

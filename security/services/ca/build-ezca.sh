@@ -18,7 +18,6 @@
 REPO_ROOT="$(pwd)"
 BUILDROOT="${REPO_ROOT}/BUILD"
 PACKAGEROOT=$(mktemp -d)
-#"${BUILDROOT}/EzCA_Pkg"
 APP_ROOT="${PACKAGEROOT}/opt/ezca"
 mkdir -p "${BUILDROOT}" && cd "${BUILDROOT}"
 
@@ -73,9 +72,7 @@ for x in ${REPOS[@]}; do
 done
 
 # Copy local resources to the build directory
-copy_to_build "${REPO_ROOT}/eztssl" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezpz" "${BUILDROOT}"
-copy_to_build "${REPO_ROOT}/ezthriftpool" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezpersist" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/service" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezca-bootstrap" "${BUILDROOT}"
@@ -90,13 +87,9 @@ pip list | grep 'zope.interface' || pip install zope.interface
 touch ~/.pyenv/versions/${PYENV}/lib/python2.7/site-packages/zope/__init__.py
 
 # Install main ezbake libs
-# install_package EzConfiguration "${ezconfig_arr[1]}/api/python"
-# install_package ezdiscovery "${ezdiscovery_arr[1]}/servicediscovery/python"
 
 # Install EzCA packages
-install_package EzTSSL "eztssl"
 install_package "ezpz" "ezpz"
-install_package "ezthriftpool" "ezthriftpool"
 install_package "ezpersist" "ezpersist"
 install_package ezca "service"
 
