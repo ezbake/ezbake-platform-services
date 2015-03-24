@@ -15,7 +15,7 @@
 #   limitations under the License.
 
 
-MAVEN_VERSION="3.2.3"
+MAVEN_VERSION="3.3.1"
 
 if hash mvn 2>/dev/null; then
 	echo "mvn already installed"
@@ -24,7 +24,7 @@ fi
 
 MAVEN=$(curl -ks http://maven.apache.org/download.cgi 2>&1 | grep -oE 'href="([^"#]+apache-maven-'"${MAVEN_VERSION}"'-bin.tar.gz)"' | head -n 1 | cut -d'"' -f2)
 
-(cd /tmp && curl -kO "${MAVEN}" && mkdir -p /usr/lib/maven && tar -xzf "apache-maven-${MAVEN_VERSION}-bin.tar.gz" -C /usr/lib/maven && rm "apache-maven-${MAVEN_VERSION}-bin.tar.gz")
+(cd /tmp && curl -ksO "${MAVEN}" && mkdir -p /usr/lib/maven && tar -xzf "apache-maven-${MAVEN_VERSION}-bin.tar.gz" -C /usr/lib/maven && rm "apache-maven-${MAVEN_VERSION}-bin.tar.gz")
 echo "export MAVEN_HOME=/usr/lib/maven/apache-maven-${MAVEN_VERSION}" > /etc/profile.d/maven.sh
 echo 'export M2="${MAVEN_HOME}/bin"' >> /etc/profile.d/maven.sh
 echo 'export PATH="$PATH:$M2"' >> /etc/profile.d/maven.sh
