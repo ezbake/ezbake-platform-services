@@ -28,21 +28,17 @@ setup(
     },
     include_package_data=True,
     scripts=['bin/ezcaservice.py'],
-    dependency_links=[
-        'git+ssh://git@<GIT SERVER LOCATION HERE>/ezbake-base-thrift.git@2.0#egg=ezbake-base-thrift-2.0',
-        'git+ssh://git@<GIT SERVER LOCATION HERE>/ezbake-configuration-api.git@2.0#egg=EzConfiguration-2.0',
-        'git+ssh://git@<GIT SERVER LOCATION HERE>/ezbake-discovery.git@2.0#egg=ezdiscovery-2.0'
-    ],
     install_requires=[
         'thrift==0.9.1',
         'nose==1.3.0',
         'PyOpenSSL==0.13.1',
         'pycrypto==2.6.1',
         'kazoo',
-        'ezdiscovery==2.0',
-        'EzConfiguration==2.0',
-        'ezbake-base-thrift==2.0',
-        'EzTSSL==2.0',
+        'ezbake-configuration>=2.1rc1.dev',
+        'ezbake-discovery>=2.1rc1.dev',
+        'ezbake-base-thrift>=2.1rc1.dev',
+        'ezsecurity-services>=2.1rc1.dev',
+        'ezbake-thrift-utils>=2.1rc1.dev',
         'EzPersist==2.0'
     ]
 )

@@ -25,22 +25,20 @@ from kazoo.testing import KazooTestHarness
 import time
 import shutil
 import os
-import os.path as osp
 from multiprocessing import Process
 import OpenSSL.crypto as crypto
 
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 
-from ezconfiguration.EzConfiguration import EzConfiguration
-from ezconfiguration.constants.EzBakePropertyConstants import EzBakePropertyConstants
-from eztssl import EzSSLSocket
+from ezbake.configuration.EzConfiguration import EzConfiguration
+from ezbake.configuration.constants import constants as EzBakePropertyConstants
+from ezbake.thrift.transport import EzSSLSocket
 
 from ezpersist.file import FilePersist
 from ezbakeca import ca, caservice, cert
-import ezca
-from ezbakeBaseTypes import ttypes as ezbakeBaseTypes
-from ezbakeBaseAuthorizations import ttypes as bvAuths
+import ezbake.ezca
+from ezbake.base.thriftapi import ttypes as ezbakeBaseTypes
 
 
 JAVA_CSR="""-----BEGIN CERTIFICATE REQUEST-----
@@ -125,7 +123,7 @@ class TestEzCAService(KazooTestHarness):
         token.validity.signature = ""
         token.validity.notAfter = 12345
         token.validity.issuedTo = "Test"
-        token.authorizations = bvAuths.Authorizations()
+        token.authorizations = ezbakeBaseTypes.Authorizations()
         token.authorizations.formalAuthorizations = ["U"]
         token.authorizationLevel = "A"
         token.tokenPrincipal = ezbakeBaseTypes.EzSecurityPrincipal()
@@ -150,7 +148,7 @@ class TestEzCAService(KazooTestHarness):
         transport = TTransport.TBufferedTransport(transport)
         protocol = TBinaryProtocol.TBinaryProtocol(transport)
         transport.open()
-        return ezca.EzCA.Client(protocol)
+        return ezbake.ezca.EzCA.Client(protocol)
 
     def test_csr_signing(self):
         pkey = ca.private_key()

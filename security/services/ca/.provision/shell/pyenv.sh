@@ -22,7 +22,7 @@ if sudo -u vagrant -i which pyenv &>/dev/null; then
   exit 0
 fi
 
-sudo -u vagrant sh -c 'curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash'
+sudo -u vagrant sh -c 'curl -sL https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash &>/dev/null'
 
 sudo -u vagrant cat >> /home/vagrant/.bashrc << 'EOF'
 export PYENV_ROOT="${HOME}/.pyenv"

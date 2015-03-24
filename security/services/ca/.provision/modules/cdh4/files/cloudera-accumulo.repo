@@ -1,6 +1,0 @@
-[cloudera-accumulo]
-name=Cloudera's Distribution of Accumulo, for CDH 4
-baseurl=http://archive.cloudera.com/accumulo/redhat/$releasever/$basearch/cdh/4/
-gpgkey = http://archive.cloudera.com/accumulo/redhat/$releasever/$basearch/cdh/RPM-GPG-KEY-cloudera
-gpgcheck = 1
-enabled = 1

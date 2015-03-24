@@ -20,8 +20,8 @@ Created on Thu May 22 09:08:17 2014
 """
 import nose.tools as nt
 
-from ezconfiguration.EzConfiguration import EzConfiguration
-from ezconfiguration.helpers import ApplicationConfiguration
+from ezbake.configuration.EzConfiguration import EzConfiguration
+from ezbake.configuration.helpers import ApplicationConfiguration
 
 import ezbakeca.caservice
 

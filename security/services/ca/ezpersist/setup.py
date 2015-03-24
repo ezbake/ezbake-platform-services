@@ -27,6 +27,6 @@ setup(
         'thrift==0.9.1',
         'nose==1.3.0',
         'EzPz==2.0',
-        'EzThriftPool==2.0'
+        'ezbake-thrift-utils>=2.1rc1.dev'
     ]
 )
