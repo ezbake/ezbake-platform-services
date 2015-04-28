@@ -150,6 +150,7 @@ def ca_server(ezconfig, service_name=None, ca_name="ezbakeca", zoo_host=None,
 
         logger.info('Registering with service discovery')
         ezdiscovery.register_common_endpoint(service_name=service_name, host=host, port=port)
+        ezdiscovery.set_security_id_for_common_service(service_name=service_name, security_id="EzCAService")
     except TimeoutError as e:
         logger.error("Fatal timeout connecting to zookeeper. Unable to "
                      "register with service discovery.")
