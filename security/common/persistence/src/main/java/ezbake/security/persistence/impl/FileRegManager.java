@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import ezbake.security.persistence.api.RegistrationManager;
 import ezbake.security.persistence.model.AppPersistenceModel;
+import ezbake.security.persistence.model.AppPersistCryptoException;
 import ezbake.security.thrift.RegistrationException;
 import ezbake.security.thrift.RegistrationStatus;
 import ezbake.security.thrift.SecurityIDNotFoundException;
@@ -189,7 +190,19 @@ public class FileRegManager implements RegistrationManager, FileWatcher.FileWatc
     @Override
     public void update(AppPersistenceModel registration, RegistrationStatus status) throws RegistrationException, SecurityIDNotFoundException {
         registration.setStatus(status);
-        put(registration);
+
+	AppPersistenceModel registered = registrationMap.get(registration.getId());
+
+	try {
+	    Map rows = registration.ezPersistRows();
+	    registered.populateEzPersist(rows);
+	} catch (AppPersistCryptoException e) {
+	    RegistrationException ex = new RegistrationException("problem updating registration ");
+	    logger.error(ex.getMessage(), e);
+	    throw ex;
+	}
+
+        put(registered);
     }
 
     @Override

@@ -359,20 +359,28 @@ public class AppPersistenceModel extends EzPersistBase {
     }
 
     @Override
-    public AppPersistenceModel populateEzPersist(Map<String, String> rows) throws AppPersistCryptoException {
-        for(Map.Entry<String, String> entry : rows.entrySet()) {
-            String[] parts = EzPersist.keyParts(entry.getKey());
+    public AppPersistenceModel populateEzPersist(Map rows) throws AppPersistCryptoException {
+        for(Map.Entry entry : (Set<Map.Entry>)rows.entrySet()) {
+            String[] parts = EzPersist.keyParts((String)entry.getKey());
             if (parts == null || parts.length < 2) {
                 continue;
             }
+
             String attribute = parts[1];
-            String value = entry.getValue();
+
+            switch (APP_REG_FIELDS.fromString(attribute)) {
+            case PRIVATE_KEY:
+                setAttr(attribute, (byte[])entry.getValue());
+                break;
+            default:
+                setAttr(attribute, ((String)entry.getValue()).getBytes());
+                break;
+            }
 
             if (id == null) {
                 id = parts[0];
             }
 
-            setAttr(attribute, value.getBytes());
         }
         // lookup ID in the mapping, and mutate accordingly
         if (SecurityID.ReservedSecurityId.isReserved(id)) {
@@ -432,7 +440,7 @@ public class AppPersistenceModel extends EzPersistBase {
         }
         if (privateKey != null) {
             String privateRow = EzPersist.key(id, APP_REG_FIELDS.PRIVATE_KEY.getValue());
-            builder.put(privateRow.getBytes(), privateKey);
+            builder.put(privateRow, privateKey);
         }
         if (x509Cert != null) {
             String certRow = EzPersist.key(id, APP_REG_FIELDS.X509_CERT.getValue());
