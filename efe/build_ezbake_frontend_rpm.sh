@@ -40,14 +40,53 @@ echo_and_execute_cmd "mkdir -p $APP_CONTAINER/logs"
 PYINST_DIR=`mktemp -d $CWD/pyinstaller_XXX`
 echo_and_execute_cmd "mkdir -p $PYINST_DIR"
 echo_and_execute_cmd "sudo env PATH=$PATH pip install --pre -r $APP_PATH/pyRequirements.pip"
-echo_and_execute_cmd "pyinstaller --distpath=$APP_CONTAINER/app --workpath=$PYINST_DIR -y --specpath=$PYINST_DIR --paths=$APP_PATH $APP_PATH/ezReverseProxy.py"
+echo_and_execute_cmd "pyinstaller --distpath=$APP_CONTAINER/app --workpath=$PYINST_DIR -y --specpath=$PYINST_DIR --paths=$APP_PATH --log-level=INFO $APP_PATH/ezReverseProxy.py"
+
+# Help pyinstaller find its eggs. This requires all eggs to be
+# deposited in the eggs/ subdirectory alongside this script. This
+# appears to be necessary because pyinstaller will only store one
+# location for a module, and it will use this location to attempt to
+# load all child modules. After finding ezbake in the
+# ezbake-configuration-constants egg, for example, it then looks for
+# ezbake.thrift in the same module and then fails.
+#
+# Note that this is a problem with pyinstaller, not Python: Python can
+# handle multiple eggs that share a namespace module.
+#
+# Also note that this hack is unfortunately reliant on the syntax of
+# the .spec file. In particular, it will probably not work with a
+# single-file distribution.
+#
+# After looking at the pyinstaller code, it seems pretty clear that
+# the real answer is to move away from it and find another way to ship
+# these packages. --Josh
+
+pushd `dirname $0`; SRC_DIR=`pwd`; popd
+eggs=
+for egg in $SRC_DIR/eggs/*.egg; do
+    eggs="('eggs/$(basename $egg)', '$egg', 'ZIPFILE'),$eggs"
+done
+
+sed -i "/= COLLECT/i\\
+a.zipfiles += [$eggs]" $PYINST_DIR/ezReverseProxy.spec
+
+echo_and_execute_cmd "pyinstaller --distpath=$APP_CONTAINER/app --workpath=$PYINST_DIR -y --specpath=$PYINST_DIR --paths=$APP_PATH --log-level=INFO $PYINST_DIR/ezReverseProxy.spec"
+
 echo_and_execute_cmd "rm -rf $PYINST_DIR"
 
 ##prepare staging area for RPM
 echo_and_execute_cmd "sudo chmod -R go-rwx $APP_CONTAINER/app"
 
 ##create RPM
-DEPENDENCIES="-d 'ezbake-nginx-module > 2.0' -d 'ezbake-frontend-static-content > 2.0' -d boost -d log4cxx"
-CONFIG_FILES="--config-files $APP_DESTINATION/config/eznginx.properties"
-echo_and_execute_cmd "sudo fpm -s dir -t rpm --rpm-use-file-permissions --rpm-user=$SYSUSER --rpm-group=$SYSGRP --directories=/opt/ezfrontend --vendor=$RPM_VENDOR -n $RPM_NAME -v $VERSION --iteration=$RELEASE $DEPENDENCIES $CONFIG_FILES $APP_CONTAINER/=$APP_DESTINATION $CONTAINER/init.d/=/etc/init.d $CONTAINER/logrotate.d/=/etc/logrotate.d"
+DEPENDENCIES=(
+    -d 'ezbake-nginx-module > 2.0'
+    -d 'ezbake-frontend-static-content > 2.0'
+    -d boost
+    -d log4cxx
+)
 
+CONFIG_FILES=(
+    --config-files "$APP_DESTINATION/config/eznginx.properties"
+)
+
+echo_and_execute_cmd "sudo fpm -s dir -t rpm --rpm-use-file-permissions --rpm-user=$SYSUSER --rpm-group=$SYSGRP --directories=/opt/ezfrontend --vendor=$RPM_VENDOR -n $RPM_NAME -v $VERSION --iteration=$RELEASE ${DEPENDENCIES[@]} ${CONFIG_FILES[@]} $APP_CONTAINER/=$APP_DESTINATION $CONTAINER/init.d/=/etc/init.d $CONTAINER/logrotate.d/=/etc/logrotate.d"
