@@ -47,7 +47,15 @@ echo_and_execute_cmd "rm -rf $PYINST_DIR"
 echo_and_execute_cmd "sudo chmod -R go-rwx $APP_CONTAINER/app"
 
 ##create RPM
-DEPENDENCIES="-d 'ezbake-nginx-module > 2.0' -d 'ezbake-frontend-static-content > 2.0' -d boost -d log4cxx"
-CONFIG_FILES="--config-files $APP_DESTINATION/config/eznginx.properties"
-echo_and_execute_cmd "sudo fpm -s dir -t rpm --rpm-use-file-permissions --rpm-user=$SYSUSER --rpm-group=$SYSGRP --directories=/opt/ezfrontend --vendor=$RPM_VENDOR -n $RPM_NAME -v $VERSION --iteration=$RELEASE $DEPENDENCIES $CONFIG_FILES $APP_CONTAINER/=$APP_DESTINATION $CONTAINER/init.d/=/etc/init.d $CONTAINER/logrotate.d/=/etc/logrotate.d"
+DEPENDENCIES=(
+    -d 'ezbake-nginx-module > 2.0'
+    -d 'ezbake-frontend-static-content > 2.0'
+    -d boost
+    -d log4cxx
+)
 
+CONFIG_FILES=(
+    --config-files "$APP_DESTINATION/config/eznginx.properties"
+)
+
+echo_and_execute_cmd "sudo fpm -s dir -t rpm --rpm-use-file-permissions --rpm-user=$SYSUSER --rpm-group=$SYSGRP --directories=/opt/ezfrontend --vendor=$RPM_VENDOR -n $RPM_NAME -v $VERSION --iteration=$RELEASE ${DEPENDENCIES[@]} ${CONFIG_FILES[@]} $APP_CONTAINER/=$APP_DESTINATION $CONTAINER/init.d/=/etc/init.d $CONTAINER/logrotate.d/=/etc/logrotate.d"
