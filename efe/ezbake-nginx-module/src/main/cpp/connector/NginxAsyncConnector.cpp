@@ -102,7 +102,7 @@ void NginxAsyncConnector::initialize() {
     try {
         _appConfig = ApplicationConfiguration::fromConfiguration(_configuration, _configNamespace);
         _securityClient = ::boost::make_shared< ::ezbake::security::client::AsyncClient>(_configuration,
-                _configNamespace, "system_services");
+                _configNamespace, "common_services");
     } catch (const std::exception &ex) {
         LOG4CXX_ERROR(LOG, "error in initializing nginx connector: " + boost::diagnostic_information(ex));
         throw;
