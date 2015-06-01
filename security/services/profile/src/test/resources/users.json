@@ -1,0 +1,13 @@
+{
+    "ddixon.84844": {
+        "name": "Daryl Dixon",
+        "uid": "ddixon.84844",
+        "organization": "WalkingDead",
+        "affiliations": ["WalkerHuntersAffiliated"]
+    },
+    "rgrimes": {
+        "name": "Rick Grimes",
+        "uid": "rgrimes12345"
+    }
+
+}

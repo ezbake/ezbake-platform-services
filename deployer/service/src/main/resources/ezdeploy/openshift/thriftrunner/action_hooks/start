@@ -1,0 +1,86 @@
+#!/bin/bash
+#   Copyright (C) 2013-2015 Computer Sciences Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+set -e
+
+BIN_DIR=$(cd $(dirname $0); pwd)
+cd ${OPENSHIFT_REPO_DIR}
+
+
+export EZCONFIGURATION_DIR=${EZCONFIGURATION_DIR:=$OPENSHIFT_REPO_DIR/config}
+export OPENSHIFT_JAVA_THRIFTRUNNER_DIR=${OPENSHIFT_DIY_DIR}
+export OPENSHIFT_JAVA_THRIFTRUNNER_LOG_DIR=${OPENSHIFT_DIY_LOG_DIR}
+export OPENSHIFT_JAVA_THRIFTRUNNER_IP=${OPESHIFT_DIY_IP}
+export OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PORT=${OPENSHIFT_DIY_EXTRA_PORT}
+export OPENSHIFT_JAVA_THRIFTRUNNER_PORT=${OPENSHIFAT_DIY_PORT}
+export OPNESHIFT_JAVA_THRIFTRUNNER_TCP_PROXY_PORT=${OPENSHIFAT_DIY_EXTRA_PROXY_PORT}
+
+function log() {
+    echo "$@" | tee -a  ${OPENSHIFT_JAVA_THRIFTRUNNER_LOG_DIR}/start.log
+}
+
+log "Detected environment variables:"
+log "  Application name:       ${OPENSHIFT_APP_NAME}"
+log "  Application home:       ${OPENSHIFT_HOMEDIR}"
+log "  Repository:             ${OPENSHIFT_REPO_DIR}"
+log "  Internal IP:            ${OPENSHIFT_JAVA_THRIFTRUNNER_IP}"
+log "  Internal TCP Port:      ${OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PORT}"
+log "  Internal HTTP Port:     ${OPENSHIFT_JAVA_THRIFTRUNNER_PORT}"
+log "  External DNS:           ${OPENSHIFT_APP_DNS}"
+log "  External HTTP(S) Port:  80/443"
+log "  External TCP Port:      ${OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PROXY_PORT}"
+log "  EZCONFIGURATION_DIR:    ${EZCONFIGURATION_DIR}"
+log "  Working directory:      $PWD"
+
+
+if [ -x "${OPENSHIFT_REPO_DIR}/bin/start.sh" ]; then
+    log "Found start.sh"
+    log "Calling start.sh with app name, internal IP, internal TCP port, external DNS, and external TCP port"
+
+    nohup "${OPENSHIFT_REPO_DIR}/bin/start.sh" \
+        --service_name ${OPENSHIFT_APP_NAME} \
+        --private_host ${OPENSHIFT_JAVA_THRIFTRUNNER_IP} \
+        --private_port ${OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PORT} \
+        --public_host ${OPENSHIFT_APP_DNS} \
+        --public_port ${OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PROXY_PORT} > ${OPENSHIFT_JAVA_THRIFTRUNNER_LOG_DIR}/server.log 2>&1 &
+
+   echo $! > ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/run/server.pid
+elif [ -d "${OPENSHIFT_REPO_DIR}/bin" ]; then
+    log "Did not find start.sh"
+
+    jars=$(find ${OPENSHIFT_REPO_DIR}/bin -maxdepth 1 -name '*.jar')
+    numJars=$(echo -n "$jars" | wc -l)
+    if [ "${numJars}" -ne 1 ]; then
+        log "Did not find exactly one jar bin!"
+        log "Not starting any Thrift service"
+    else
+        log "Found jar in bin"
+        log "Calling Java ThriftRunner with app name, internal IP, internal TCP port, external DNS, and external TCP port"
+
+        nohup java \
+            -jar ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/lib/thriftrunner.jar \
+            -j $jars \
+            --service_name ${OPENSHIFT_APP_NAME} \
+            --private_host ${OPENSHIFT_JAVA_THRIFTRUNNER_IP} \
+            --private_port ${OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PORT} \
+            --public_host ${OPENSHIFT_APP_DNS} \
+            --public_port ${OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PROXY_PORT} > ${OPENSHIFT_JAVA_THRIFTRUNNER_LOG_DIR}/server.log 2>&1 &
+        echo $! > ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/run/server.pid
+    fi
+else
+    log "Did not find bin directory!"
+    log "Not starting Thrift service"
+fi
+cd ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}

@@ -1,0 +1,13 @@
+# Blank authorizations rule file for BooleanExpressionAuthorizationRulePolicy.
+#
+# Rules have the form:
+#
+# AUTH_TO_GRANT = (A & B) | C
+#
+# The boolean expression may also be blank, in which case the authorization is
+# always granted, e.g.:
+#
+# AUTH_TO_AUTOMATICALLY_GRANT =
+#
+# This file may be deployed external to the classpath by setting the EzBake
+# configuration property ezbake.security.service.policy.authorizationRule.file.

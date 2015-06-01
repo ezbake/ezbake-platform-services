@@ -1,0 +1,119 @@
+[
+{
+   "securityId": "SecurityClientTest",
+   "level": "high",
+   "authorizations": ["ezbake", "42six", "CSC", "USA"],
+    "communityAuthorizations": ["comm1", "comm2"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB",
+    "appDn": "Jim Bob" 
+},
+{
+"securityId": "02",
+"level": "med",
+"authorizations": ["ezbake", "42six", "python", "snakes"],
+"publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+1wIDAQAB",
+"appDn": "EzbakeAdmin"
+},
+ {
+   "securityId": "EzPy",
+   "level": "med",
+   "authorizations": ["ezbake", "42six", "python", "snakes"],
+   "communityAuthorizations": ["comm1"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB",
+   "appDn": "EzbakeAdmin"
+ },
+ {
+    "securityId": "ExSearch",
+    "level": "high",
+    "authorizations": ["42six", "admins", "leaders"],
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                  UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                  TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                  zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                  CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                  U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                  1wIDAQAB"
+ },
+ {
+    "securityId": "client",
+    "level": "low",
+    "authorizations": ["ezbake"],
+    "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                  UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                  TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                  zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                  CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                  U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                  1wIDAQAB"
+ },
+ {
+   "securityId": "empty auth",
+   "level": "low",
+   "authorizations": ["", "42six", "ezbake"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB"
+ },
+{
+"securityId": "no auths",
+"level": "high",
+"authorizations": [],
+"publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+1wIDAQAB"
+},
+
+{
+   "securityId": "NewSecurityClientTest",
+   "level": "gg_high",
+   "authorizations": ["gg_ezbake", "gg_42six", "gg_CSC"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB",
+    "appDn": "Jim Bob" 
+},
+
+{
+   "securityId": "NewEzPy",
+   "level": "gg_high",
+   "authorizations": ["gg_ezbake", "gt_py", "gr_usa"],
+   "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwPjvGGqlO9bPV0POLUeO
+                 UJ+RCoROtZLu4CrH5ZqH+LSH7BEo4TbArMiW9xc+0aIV/l+laWsv06uLLBqOtrAv
+                 TEKyBoGdKND2K6gv2niKFLB2a6x0H/ABVAEEyGiTOXw3vbuMeL4dxzgyY/orX2xN
+                 zAuQmglE2veSVGhOZO366fi2Wjzt58D8tlCA3r5xV0vMkTEtusltEJqxb3moRT55
+                 CDH14R5DxAUW4eY3fWl830mGXspKcXxMmmRMk18HEKpkUvQyTZh+urmbBKpab9rg
+                 U3pM0R32y1Ki8hpxh75o/P1GNtgGNEIUMCkFExZOWOfOzCvWgBLaaSservdeRvpb
+                 1wIDAQAB",
+    "appDn": "Jim Bob" 
+}
+]

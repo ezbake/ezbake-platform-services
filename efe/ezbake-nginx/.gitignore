@@ -1,0 +1,6 @@
+*.swp
+nginx/Makefile
+nginx/objs/*
+libs/
+maven_deps/target/
+

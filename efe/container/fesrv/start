@@ -1,0 +1,8 @@
+#!/bin/bash
+
+PIDFILE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )""/pidfile"
+setcap 'cap_net_bind_service=+ep' /opt/ezfrontend/app/nginx
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+EXE="${DIR}/app/ezReverseProxy/ezReverseProxy"
+runuser -l ezfrontend -c $EXE&
+

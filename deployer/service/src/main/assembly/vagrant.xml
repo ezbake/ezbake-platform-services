@@ -1,0 +1,65 @@
+<!--   Copyright (C) 2013-2015 Computer Sciences Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. -->
+
+<assembly>
+    <id>vagrant</id>
+    <!-- START SNIPPET: formats -->
+    <formats>
+        <format>dir</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <!-- END SNIPPET: formats -->
+    <!-- START SNIPPET: fileSets -->
+    <fileSets>
+        <fileSet>
+            <directory>src/main/scripts</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>vagrant/ezconfig/config</directory>
+            <outputDirectory>config</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>thrift-runner.jar</include>
+                <include>ezdeployer-cli.jar</include>
+                <include>slf4j-nop.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>target/${artifactId}-${version}-app.jar</source>
+            <outputDirectory>bin</outputDirectory>
+            <destName>ezdeployer.jar</destName>
+        </file>
+    </files>
+    <!-- END SNIPPET: fileSets -->
+</assembly>

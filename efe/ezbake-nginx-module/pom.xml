@@ -1,0 +1,178 @@
+<!--   Copyright (C) 2013-2015 Computer Sciences Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ezbake</groupId>
+        <artifactId>ezbake-cpp-parent</artifactId>
+        <version>2.1</version>
+    </parent>
+
+    <artifactId>ezbake-nginx-module</artifactId>
+    <packaging>nar</packaging>
+    <name>EzBake Nginx Module</name>
+
+    <properties>
+        <eznginx.path>${basedir}/../ezbake-nginx</eznginx.path>
+        <tmp.lib.path>${basedir}/target/rpm/libs</tmp.lib.path>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-security-client-cpp</artifactId>
+            <version>${project.version}</version>
+            <type>nar</type>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-reverseproxy-thrift</artifactId>
+            <version>${project.version}</version>
+            <type>nar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <configuration>
+                    <cpp>
+                        <includePaths>
+                            <includePath>${basedir}/src/main/cpp/include</includePath>
+                        </includePaths>
+                        <systemIncludePaths>
+                            <!-- ezbake-nginx-auth module includes -->
+                            <systemIncludePath>${eznginx.path}/modules/ezbake-nginx-auth/src/include</systemIncludePath>
+                            
+                            <!-- nginx includes -->
+                            <systemIncludePath>${eznginx.path}/nginx/src/os/unix</systemIncludePath>
+                            <systemIncludePath>${eznginx.path}/nginx/src/mail</systemIncludePath>
+                            <systemIncludePath>${eznginx.path}/nginx/src/http/modules</systemIncludePath>
+                            <systemIncludePath>${eznginx.path}/nginx/src/http</systemIncludePath>
+                            <systemIncludePath>${eznginx.path}/nginx/src/core</systemIncludePath>
+                            <systemIncludePath>${eznginx.path}/nginx/src/event</systemIncludePath>
+                            <systemIncludePath>${eznginx.path}/nginx/objs</systemIncludePath>
+                        </systemIncludePaths>
+                    </cpp>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shortRevisionLength>7</shortRevisionLength>
+                    <format>${parsedVersion.qualifier}{0,date,yyyyMMddHHmmss}.git.{1}</format>
+                    <items>
+                        <item>timestamp</item>
+                        <item>scmVersion</item>
+                    </items>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-libraries</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${basedir}/src/main/scripts/copy_libraries.sh</executable>
+                            <commandlineArgs>${basedir} ${tmp.lib.path}</commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>rpm-maven-plugin</artifactId>
+               <version>2.1.1</version>
+               <executions>
+                   <execution>
+                       <id>generate-rpm</id>
+                       <goals>
+                           <goal>rpm</goal>
+                       </goals>
+                   </execution>
+               </executions>
+               <configuration>
+                   <description>${project.name} RPM</description>
+                   <release>${buildNumber}</release>
+                   <group>ezbake</group>
+                   <needarch>true</needarch>
+                   <vendor>EzBake.IO</vendor>
+                   <license>ASL 2.0</license>
+                   <defineStatements>
+                       <defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
+                   </defineStatements>
+                   <requires>
+                       <require>boost</require>
+                       <require>log4cxx</require>
+                   </requires>
+                   <mappings>
+                       <mapping>
+                           <directory>/usr/lib64</directory>
+                           <filemode>755</filemode>
+                           <username>root</username>
+                           <groupname>root</groupname>
+                           <directoryIncluded>false</directoryIncluded>
+                           <sources>
+                               <source>
+                                   <location>${tmp.lib.path}</location>
+                               </source>
+                           </sources>
+                       </mapping>
+                   </mappings>
+                   <postinstallScriptlet>
+                       <script>/sbin/ldconfig</script>
+                   </postinstallScriptlet>
+                   <postremoveScriptlet>
+                       <script>/sbin/ldconfig</script>
+                   </postremoveScriptlet>
+               </configuration>
+           </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,46 @@
+#!/bin/bash
+#   Copyright (C) 2013-2015 Computer Sciences Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+# OpenShift action_hook: deploy
+#
+# Looks for a file named "bootstrap.sh" in $OPENSHIFT_REPO_DIR and executes it
+#
+
+local_dir=$( cd "$( dirname "$0" )" && pwd )
+
+function log() {
+    echo "$@" | tee -a  ${OPENSHIFT_LOG_DIR}/django_deploy.log
+}
+
+# Proceed from the OpenShift repo directory
+cd "${OPENSHIFT_REPO_DIR}"
+
+source "${OPENSHIFT_HOMEDIR}/python/virtenv/bin/activate"
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+if [[ -x bootstrap.sh ]]; then
+    log "Found bootstrap.sh. Running application bootstrap script"
+
+    # set up logging for bootstrap
+    LOGPIPE=${OPENSHIFT_HOMEDIR}/app-root/runtime/logshifter-python-bootstrap
+    rm -f $LOGPIPE && mkfifo $LOGPIPE
+    /usr/bin/logshifter -tag python < $LOGPIPE &
+
+    # execute bootstrap
+    ./bootstrap.sh >$LOGPIPE 2>&1
+else
+    log "Did not find bootstrap.sh"
+fi

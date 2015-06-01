@@ -1,0 +1,62 @@
+{
+    "Hodor": {
+        "name": "Hodor",
+        "uid": "hodor",
+        "phoneNumber": "555-555-5555",
+        "company": "stark",
+        "emails": {
+            "work": "hodor@hodor.com",
+            "home": "hodor@winter.com"
+        },
+        "authorizations": {
+            "level":"servant",
+            "auths":["carry", "help", "protect"],
+            "citizenship":"Stark",
+            "organization": "nan"
+        },
+        "groups": {
+            "stark": [
+                "winterfell",
+                "bran"
+            ]
+        },
+        "communities": [{
+            "communityName": "starkies",
+            "communityType": "familiar",
+            "organization": "stark",
+            "topics":["honor", "hodor"],
+            "regions":["north"],
+            "groups":["helpers"]
+        }]
+    },
+    "Daenerys": {
+       "name": "Daenerys Targaryen",
+       "uid": "stormborn",
+        "authorizations": {
+            "auths":["dragons", "dothraki", "khaleesi"],
+           "citizenship":"Targaryen",
+            "level":"noble",
+            "organization": "MoD"
+        },
+        "groups": {
+            "_Ez_internal_project_" : [
+                "_Ez_administrator"
+            ],
+            "Targaryen": [
+                "dragonstone",
+                "princess"
+            ],
+            "Dragons": [
+            "queen"
+            ]
+        },
+        "communities": [{
+            "communityName": "dragons",
+            "communityType": "motherly",
+            "organization": "dragon",
+            "topic":["Dragons"],
+            "region":["East"],
+            "groups":["mother"]
+        }]
+    }
+}

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--   Copyright (C) 2013-2015 Computer Sciences Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ezbake</groupId>
+        <artifactId>ezbake-groups</artifactId>
+        <version>2.1</version>
+    </parent>
+
+    <artifactId>ezbake-groups-graph</artifactId>
+
+    <dependencies>
+        <!-- Third Party Dependencies -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop.blueprints</groupId>
+            <artifactId>blueprints-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop</groupId>
+            <artifactId>frames</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop.gremlin</groupId>
+            <artifactId>gremlin-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop</groupId>
+            <artifactId>pipes</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thinkaurelius.titan</groupId>
+            <artifactId>titan-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thinkaurelius.titan</groupId>
+            <artifactId>titan-berkeleyje</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thinkaurelius.titan</groupId>
+            <artifactId>titan-accumulo-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thinkaurelius.titan</groupId>
+            <artifactId>titan-es</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- EzBake Dependencies -->
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-groups-common</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-groups-thrift</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>ezbake-configuration-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbakehelpers</groupId>
+            <artifactId>ezbakehelpers-ezconfigurationhelpers</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ezbakehelpers</groupId>
+            <artifactId>accumuloutils</artifactId>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>test-utils</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>local-redis</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ezbake</groupId>
+            <artifactId>local-zookeeper</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

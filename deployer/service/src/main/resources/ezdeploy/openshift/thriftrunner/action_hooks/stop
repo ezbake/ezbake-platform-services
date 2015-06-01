@@ -1,0 +1,39 @@
+#!/bin/bash
+#   Copyright (C) 2013-2015 Computer Sciences Corporation
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+set -e
+
+BIN_DIR=$(cd $(dirname $0); pwd)
+export EZCONFIGURATION_DIR=${EZCONFIGURATION_DIR:=$OPENSHIFT_REPO_DIR/config}
+export OPENSHIFT_JAVA_THRIFTRUNNER_DIR=${OPENSHIFT_DIY_DIR}
+export OPENSHIFT_JAVA_THRIFTRUNNER_LOG_DIR=${OPENSHIFT_DIY_LOG_DIR}
+export OPENSHIFT_JAVA_THRIFTRUNNER_IP=${OPESHIFT_DIY_IP}
+export OPENSHIFT_JAVA_THRIFTRUNNER_TCP_PORT=${OPENSHIFT_DIY_EXTRA_PORT}
+export OPENSHIFT_JAVA_THRIFTRUNNER_PORT=${OPENSHIFAT_DIY_PORT}
+export OPNESHIFT_JAVA_THRIFTRUNNER_TCP_PROXY_PORT=${OPENSHIFAT_DIY_EXTRA_PROXY_PORT}
+
+function log() {
+    echo "$@" | tee -a  ${OPENSHIFT_JAVA_THRIFTRUNNER_LOG_DIR}/start.log
+}
+
+log "Stopping Java Thriftrunner cart"
+
+if [ -f ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/run/server.pid ]; then
+    SERVER_PID=$(cat ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/run/server.pid)
+    log "Sending kill signal to kill service process $SERVER_PID"
+    kill $SERVER_PID
+    mv ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/run/server.pid ${OPENSHIFT_JAVA_THRIFTRUNNER_DIR}/run/server.pid.old
+fi
+

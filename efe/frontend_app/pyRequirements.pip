@@ -1,0 +1,15 @@
+ezbake-configuration==2.1
+ezbake-discovery==2.1
+ezbake-reverseproxy-thrift==2.1
+ezbake-thrift-utils==2.1
+ezbake-thrift-gevent-server==2.1
+
+pyaccumulo==1.5.0.6
+pyopenssl==0.13.1
+
+gevent
+gevent-inotifyx
+zbase62
+pycrypto
+pyutil
+

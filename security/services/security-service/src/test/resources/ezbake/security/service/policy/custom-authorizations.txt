@@ -1,0 +1,19 @@
+# Custom authorizations to use in BooleanExpressionAuthorizationRulePolicyTest
+#
+# The test assumes that the user has authorizations: "A" and "USA". All of the
+# authorizations should be granted except "F".
+
+# Unconditionally grant B
+B =
+
+# Grant C if A is given
+C = A
+
+# Grant D if B (granted earlier) and A are given
+D = B&A
+
+# Grant E because USA was given
+E = X|USA
+
+# DO NOT grant F
+F = X|Y

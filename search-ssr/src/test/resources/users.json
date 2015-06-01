@@ -1,0 +1,33 @@
+{
+    "Doe, John": {
+       "name": "John Doe",
+       "uid": "stormborn",
+        "authorizations": {
+            "auths":["FOUO", "USA"],
+            "communityAuthorizations": ["TEST"],
+            "citizenship":"Targaryen",
+            "level":"U",
+            "organization": "MoD"
+        },
+        "groups": {
+            "_Ez_internal_project_" : [
+                "_Ez_administrator"
+            ],
+            "Targaryen": [
+                "dragonstone",
+                "princess"
+            ],
+            "Dragons": [
+            "queen"
+            ]
+        },
+        "communities": [{
+            "communityName": "dragons",
+            "communityType": "motherly",
+            "organization": "dragon",
+            "topic":["Dragons"],
+            "region":["East"],
+            "groups":["mother"]
+        }]
+    }
+}

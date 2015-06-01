@@ -1,0 +1,3 @@
+*.rpm
+hieradata/
+BUILD/
