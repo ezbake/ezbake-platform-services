@@ -41,13 +41,12 @@ function install_package() {
     local name="$1"
     local dir="$2"
 
-    #version=$(pip list | grep "${name}")
-    #if [ $? -eq 1 ]; then
     echo "${name} not installed. Installing now"
-    (cd "${dir}" && python setup.py clean -a && pip install -r requirements.txt && pyenv rehash) || (echo "failed"; exit 1)
-    #else
-        #echo "${name} installed - ${version}"
-    #fi
+    pushd "${dir}"
+    python setup.py clean -a
+    pip install -r requirements.txt
+    pyenv rehash
+    popd
 }
 
 function install_maven() {
@@ -84,7 +83,7 @@ copy_to_build "${REPO_ROOT}/ezca-bootstrap" "${BUILDROOT}"
 echo "switching to pyenv virtualenv ${PYENV}"
 eval "$(pyenv init -)"
 pyenv shell "${PYENVV}" || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install "${PYENVV}"
-pyenv shell "${PYENV}" || pyenv virtualenv -f ${PYENVV} ${PYENV} && pyenv shell "${PYENVV}"
+pyenv shell "${PYENV}" || pyenv virtualenv -f ${PYENVV} ${PYENV} && pyenv shell "${PYENV}"
 
 pip list | grep 'setuptools' || curl -L https://bootstrap.pypa.io/get-pip.py | python
 pip list | grep 'pyinstaller' || (cd ${BUILDROOT}/pyinstaller && python setup.py install && cd -)

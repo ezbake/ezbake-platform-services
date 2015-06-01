@@ -17,7 +17,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='EzPersist',
-    version='2.0',
+    version='2.1',
     description='EzPersist is a wrapper around Accumulo that also provides a memory key, value store',
     author='Jeff Hastings',
     author_email='jhastings@42six.com',
@@ -26,7 +26,7 @@ setup(
     install_requires=[
         'thrift==0.9.1',
         'nose==1.3.0',
-        'EzPz==2.0',
-        'ezbake-thrift-utils>=2.1rc1.dev'
+        'EzPz==2.1',
+        'ezbake-thrift-utils>=2.1'
     ]
 )

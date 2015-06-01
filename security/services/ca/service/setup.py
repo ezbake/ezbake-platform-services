@@ -17,7 +17,7 @@ app = find_packages('lib')
 
 setup(
     name='ezca',
-    version='2.0',
+    version='2.1',
     description='ezbake ca service',
     author='Jeff Hastings',
     author_email='jhastings@42six.com',
@@ -33,12 +33,12 @@ setup(
         'nose==1.3.0',
         'PyOpenSSL==0.13.1',
         'pycrypto==2.6.1',
-        'kazoo',
-        'ezbake-configuration>=2.1rc1.dev',
-        'ezbake-discovery>=2.1rc1.dev',
-        'ezbake-base-thrift>=2.1rc1.dev',
-        'ezsecurity-services>=2.1rc1.dev',
-        'ezbake-thrift-utils>=2.1rc1.dev',
-        'EzPersist==2.0'
+        'kazoo~=1.3.0',
+        'ezbake-configuration>=2.1',
+        'ezbake-discovery>=2.1',
+        'ezbake-base-thrift>=2.1',
+        'ezsecurity-services>=2.1',
+        'ezbake-thrift-utils>=2.1',
+        'EzPersist==2.1'
     ]
 )

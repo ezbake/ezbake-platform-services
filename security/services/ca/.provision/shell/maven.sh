@@ -15,7 +15,7 @@
 #   limitations under the License.
 
 
-MAVEN_VERSION="3.3.1"
+MAVEN_VERSION="3.2.5"
 
 if hash mvn 2>/dev/null; then
 	echo "mvn already installed"

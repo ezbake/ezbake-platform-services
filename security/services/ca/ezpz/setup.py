@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='EzPz',
-    version='2.0',
+    version='2.1',
     description='EzPz is a thrift server that we can use in tests',
     author='Jeff Hastings',
     author_email='jhastings@42six.com',
