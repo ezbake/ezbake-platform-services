@@ -15,7 +15,5 @@
 
 
 (cd ezpz && python setup.py develop)
-(cd eztssl && python setup.py develop)
-(cd ezthriftpool && python setup.py develop)
 (cd ezpersist && python setup.py develop)
 (cd service && python setup.py develop)

@@ -18,13 +18,16 @@
 REPO_ROOT="$(pwd)"
 BUILDROOT="${REPO_ROOT}/BUILD"
 PACKAGEROOT=$(mktemp -d)
-#"${BUILDROOT}/EzCA_Pkg"
 APP_ROOT="${PACKAGEROOT}/opt/ezca"
 mkdir -p "${BUILDROOT}" && cd "${BUILDROOT}"
 
 PYENVV=2.7.6
 PYENV=ezca2.0
 BRANCH=master
+
+
+PYINSTALLER_REPO="https://github.com/ezbake/pyinstaller.git;pyinstaller;develop"
+REPOS=(${PYINSTALLER_REPO})
 
 function copy_to_build() {
     local src="$1"
@@ -38,13 +41,12 @@ function install_package() {
     local name="$1"
     local dir="$2"
 
-    #version=$(pip list | grep "${name}")
-    #if [ $? -eq 1 ]; then
     echo "${name} not installed. Installing now"
-    (cd "${dir}" && python setup.py clean -a && python setup.py install && pyenv rehash) || (echo "failed"; exit 1)
-    #else
-        #echo "${name} installed - ${version}"
-    #fi
+    pushd "${dir}"
+    python setup.py clean -a
+    pip install -r requirements.txt
+    pyenv rehash
+    popd
 }
 
 function install_maven() {
@@ -73,30 +75,26 @@ for x in ${REPOS[@]}; do
 done
 
 # Copy local resources to the build directory
-copy_to_build "${REPO_ROOT}/eztssl" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezpz" "${BUILDROOT}"
-copy_to_build "${REPO_ROOT}/ezthriftpool" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezpersist" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/service" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezca-bootstrap" "${BUILDROOT}"
 
 echo "switching to pyenv virtualenv ${PYENV}"
 eval "$(pyenv init -)"
-pyenv shell "${PYENV}" || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install "${PYENV}" && pyenv shell "${PYENV}"
+pyenv shell "${PYENVV}" || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install "${PYENVV}"
+pyenv shell "${PYENV}" || pyenv virtualenv -f ${PYENVV} ${PYENV} && pyenv shell "${PYENV}"
 
 pip list | grep 'setuptools' || curl -L https://bootstrap.pypa.io/get-pip.py | python
-pip list | grep 'pyinstaller' || pip install pyinstaller
+pip list | grep 'pyinstaller' || (cd ${BUILDROOT}/pyinstaller && python setup.py install && cd -)
 pip list | grep 'zope.interface' || pip install zope.interface
 touch ~/.pyenv/versions/${PYENV}/lib/python2.7/site-packages/zope/__init__.py
 
 # Install main ezbake libs
-# install_package EzConfiguration "${ezconfig_arr[1]}/api/python"
-# install_package ezdiscovery "${ezdiscovery_arr[1]}/servicediscovery/python"
+pip install -r "${REPO_ROOT}/requirements.txt"
 
 # Install EzCA packages
-install_package EzTSSL "eztssl"
 install_package "ezpz" "ezpz"
-install_package "ezthriftpool" "ezthriftpool"
 install_package "ezpersist" "ezpersist"
 install_package ezca "service"
 
@@ -111,7 +109,7 @@ mkdir -p ${APP_ROOT}/{bin,config,app}
 
 # Copy app files
 cp -r dist/ezcaservice "${APP_ROOT}/app/"
-cp ezca-bootstrap/target/ezca-bootstrap-*-shaded.jar "${APP_ROOT}/bin/ezca-bootstrap"
+cp ezca-bootstrap/target/ezca-bootstrap-*-jar-with-dependencies.jar "${APP_ROOT}/bin/ezca-bootstrap"
 cp "${REPO_ROOT}"/scripts/bin/* "${APP_ROOT}/bin/"
 cat > "${APP_ROOT}/config/ezca.properties" <<'EOF'
 ezbake.shared.secret.environment.variable=EZBAKE_ENCRYPTION_SECRET
@@ -134,7 +132,7 @@ cd "${REPO_ROOT}"
 
 #$(date +"%Y%m%d%H%M") \
 sudo fpm -f -s dir -t rpm \
-    -n EzCA -v 2.0 --iteration 1 \
+    -n EzCA -v 2.1 --iteration 1 \
     -C "${PACKAGEROOT}" \
     --rpm-use-file-permissions \
     --rpm-auto-add-directories \

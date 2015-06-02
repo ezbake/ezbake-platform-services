@@ -12,4 +12,44 @@ $ vagrant ssh
 [vagrant@build vagrant]$ ./build-ezca.sh
 ```
 
+The build script __build-ezca.sh__ should be run from the VM. It will install pyenv and a new virtualenv before installing
+the packages and their dependencies with pip. If pypi is not configured for EzBake, you should do the pyenv steps manually.
+
+```
+export PYENVV=2.7.6
+export PYENV=ezca2.0
+eval "$(pyenv init -)"
+pyenv shell "${PYENVV}" || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install "${PYENVV}"
+pyenv virtualenv ${PYENVV} ${PYENV} && pyenv shell "${PYENV}"
+pip install -r requirements.txt
+
+```
+
 Artifacts are output in the folder /vagrant/BUILD
+
+## Gathering dependencies
+
+If ezbake libraries are not available in the pypi repo, then it may be necessary to build ezbake-thrift and ezbake-common-python locally
+
+```
+export REPO_URL=<ex: https://github.com>
+git clone "${REPO_URL}/ezbake/ezbake-thrift.git"
+git clone "${REPO_URL}/ezbake/ezbake-common-python.git"
+
+cd ezbake-thrift
+mvn clean package
+for artifact in $(find . -name setup.py); do
+    dir=$(dirname $artifact)
+    pushd $dir
+    python setup.py install
+    popd
+done
+
+cd ../ezbake-common-python
+for artifact in $(find . -name setup.py); do
+    dir=$(dirname $artifact)
+    pushd $dir
+    python setup.py install
+    popd
+done
+```

@@ -24,7 +24,7 @@ from thrift.protocol import TBinaryProtocol
 from accumulo import AccumuloProxy
 from accumulo.ttypes import *
 
-from thriftutils.connectionpool import ThriftConnectionPool, PoolingThriftClient
+from ezbake.thrift.utils.connectionpool import ThriftConnectionPool, PoolingThriftClient
 from ezpersist.base import Persist
 
 class ProxyClient(PoolingThriftClient):

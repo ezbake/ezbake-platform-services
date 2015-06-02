@@ -30,15 +30,15 @@ import Crypto.Random
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
-from eztssl.EzSSLSocket import TSSLServerSocket
+from ezbake.thrift.transport.EzSSLSocket import TSSLServerSocket
 
-from ezconfiguration.EzConfiguration import EzConfiguration
-from ezconfiguration.loaders.DirectoryConfigurationLoader import DirectoryConfigurationLoader
-from ezconfiguration.helpers import ZookeeperConfiguration
-from ezconfiguration.helpers import ApplicationConfiguration
-from ezconfiguration.helpers import SystemConfiguration
+from ezbake.configuration.EzConfiguration import EzConfiguration
+from ezbake.configuration.loaders.DirectoryConfigurationLoader import DirectoryConfigurationLoader
+from ezbake.configuration.helpers import ZookeeperConfiguration
+from ezbake.configuration.helpers import ApplicationConfiguration
+from ezbake.configuration.helpers import SystemConfiguration
 
-import ezdiscovery
+from ezbake.discovery import ServiceDiscoveryClient
 from kazoo.handlers.threading import TimeoutError
 
 from ezpersist.base import MemoryPersist
@@ -47,10 +47,9 @@ from ezpersist.file import FilePersist
 import ezbakeca.ca
 from ezbakeca.cert import Cert
 from ezbakeca.ca import EzbakeCA
-from ezca import EzCA
-import ezca.ttypes
-import ezca.constants
-import ezmetrics.ttypes
+from ezbake.ezca import EzCA
+import ezbake.ezca.ttypes
+import ezbake.ezca.constants
 
 import logging
 import logging.handlers
@@ -99,9 +98,6 @@ class EzCAHandler:
     def ping(self):
         return True
 
-    def getMetricRegistryThrift(self):
-        return ezmetrics.ttypes.MetricRegistryThrift()
-
     def csr(self, token, csr):
         csr = ezbakeca.ca.load_csr(csr)
         # but since this is a Protect component, and we are only allowing
@@ -147,18 +143,17 @@ def ca_server(ezconfig, service_name=None, ca_name="ezbakeca", zoo_host=None,
         host = socket.gethostname()
 
     # register with ezdiscovery
+    ezdiscovery = ServiceDiscoveryClient(zoo_host)
     try:
         if service_name is None:
-            service_name = ezca.constants.SERVICE_NAME
-        ezdiscovery.connect(zoo_host)
+            service_name = ezbake.ezca.constants.SERVICE_NAME
+
         logger.info('Registering with service discovery')
         ezdiscovery.register_common_endpoint(service_name=service_name, host=host, port=port)
     except TimeoutError as e:
         logger.error("Fatal timeout connecting to zookeeper. Unable to "
                      "register with service discovery.")
         raise e
-    finally:
-        ezdiscovery.disconnect()
 
     # create the thrift handler
     handler = EzCAHandler(ca_name, ezconfig)
