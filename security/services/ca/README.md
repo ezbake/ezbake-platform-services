@@ -38,18 +38,18 @@ git clone "${REPO_URL}/ezbake/ezbake-common-python.git"
 
 cd ezbake-thrift
 mvn clean package
-for artifact in $(find . -name setup.py); do
-    dir=$(dirname $artifact)
-    pushd $dir
-    python setup.py install
-    popd
-done
 
-cd ../ezbake-common-python
-for artifact in $(find . -name setup.py); do
-    dir=$(dirname $artifact)
-    pushd $dir
-    python setup.py install
-    popd
+projects=( \
+./base/target/thrift-gen/python \
+./configuration/target/thrift-gen/python \
+./security/ezsecurity-services/target/thrift-gen/python \
+../ezbake-common-python/configuration \
+../ezbake-common-python/discovery \
+../ezbake-common-python/thrift/thrift-utils \
+../ezbake-common-python/security \
+)
+
+for project in ${projects[@]}; do
+    pushd $project ; pip install . ; popd
 done
 ```
