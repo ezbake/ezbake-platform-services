@@ -18,6 +18,7 @@ import ezbake.base.thrift.EzSecurityToken;
 import ezbake.base.thrift.EzSecurityTokenJson;
 import ezbake.security.common.core.TokenJSONProvider;
 import ezbake.base.thrift.EzSecurityTokenException;
+import ezbake.crypto.utils.CryptoUtil;
 import ezbake.crypto.PKeyCrypto;
 import org.apache.thrift.TException;
 import org.apache.thrift.TSerializer;
@@ -41,13 +42,11 @@ public class ThriftTokenJSONProvider implements TokenJSONProvider {
 
     @Override
     public EzSecurityTokenJson getTokenJSON(EzSecurityToken token, PKeyCrypto signer)
-            throws TException, UnsupportedEncodingException {
+            throws Exception {
 
         EzSecurityTokenJson json = new EzSecurityTokenJson();
         String jsonString = new String(new TSerializer(new TSimpleJSONProtocol.Factory()).serialize(token), "UTF-8");
         
-        json.setSignature("");
-
         if (token.getValidity() == null) {
             throw new EzSecurityTokenException("no validity caveats for token: " + json);
         }
@@ -63,6 +62,7 @@ public class ThriftTokenJSONProvider implements TokenJSONProvider {
         } catch (IOException e) {
             LOGGER.error("trouble modifying the json string that was just created: {}", json, e);
         } finally {
+            json.setSignature(CryptoUtil.encode(signer.sign(json.getJson().getBytes())));
             return json;
         }
     }
