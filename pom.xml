@@ -182,13 +182,20 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-core</artifactId>
-                <version>2.0.0-mr1-cdh4.6.0</version>
+                <artifactId>hadoop-common</artifactId>
+                <version>${hadoop.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-common</artifactId>
-                <version>2.0.0-cdh4.6.0</version>
+                <groupId>org.apache.accumulo</groupId>
+                <artifactId>accumulo-core</artifactId>
+                <!-- explicitly define accumulo version requirement -->
+                <version>${accumulo.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
@@ -778,6 +785,7 @@
                                 <group>ezbake</group>
                                 <release>${buildNumber}</release>
                                 <needarch>false</needarch>
+                                <targetOS>linux</targetOS>
                                 <vendor>EzBake.IO</vendor>
                                 <license>ASL 2.0</license>
                                 <defineStatements>
@@ -853,6 +861,36 @@
                     </plugins>
                 </pluginManagement>
             </build>
+        </profile>
+        <profile>
+            <id>cdh</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <hadoop.version>2.0.0-cdh4.5.0</hadoop.version>
+                <hadoop.core.version>2.0.0-mr1-cdh4.6.0</hadoop.core.version>
+                <accumulo.version>1.6.0-cdh4.6.0</accumulo.version>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.hadoop</groupId>
+                        <artifactId>hadoop-core</artifactId>
+                        <version>${hadoop.core.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>hortonworks</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <hadoop.version>2.6.0.2.2.0.0-2041</hadoop.version>
+                <accumulo.version>1.6.1.2.2.0.0-2041</accumulo.version>
+            </properties>
         </profile>
     </profiles>
 </project>
