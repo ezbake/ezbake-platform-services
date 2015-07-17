@@ -77,10 +77,14 @@ public class OpenShiftDeployerModule extends AbstractModule {
             // Add bindings for Java WebApps
             if ((artifactType.getLanguage() == Language.Java) &&
                     (artifactType.getType() == ArtifactType.Thrift || artifactType.getType() == ArtifactType.DataSet)) {
+		logger.debug("adding thrift runner injector for language {} and type {}",
+			     artifactType.getLanguage(), artifactType.getType());
                 artifactPublisher.addBinding(artifactType).to(ThriftRunnerInjector.class);
             } else if (artifactType.getLanguage() == Language.Python) {
                 // Python webapps get the django action hooks
                 if (artifactType.getType() == ArtifactType.WebApp) {
+		    logger.debug("adding django hook injector for language {} and type {}",
+				 artifactType.getLanguage(), artifactType.getType());
                     artifactPublisher.addBinding(artifactType).to(DjangoActionHookInjector.class);
                 }
             }
@@ -96,16 +100,22 @@ public class OpenShiftDeployerModule extends AbstractModule {
             // Add bindings for Java WebApps
             if ((artifactType.getLanguage() == Language.Java) &&
                     (artifactType.getType() == ArtifactType.WebApp)) {
+		logger.debug("adding java web app artifact content publisher for language {} and type {}",
+			     artifactType.getLanguage(), artifactType.getType());
                 contentsPublisher.addBinding(artifactType).to(JavaWebAppArtifactContentsPublisher.class);
             }
 
             // Add bindings for all Python Apps
             if (artifactType.getLanguage() == Language.Python) {
+		logger.debug("adding python requirements publisher artifact content publisher for language {} and type {}",
+			     artifactType.getLanguage(), artifactType.getType());
                 contentsPublisher.addBinding(artifactType).to(PythonRequirementsPublisher.class);
 
                 // Add bindings for Python Web Apps
                 if ((artifactType.getLanguage() == Language.Python) &&
                         (artifactType.getType() == ArtifactType.WebApp)) {
+		    logger.debug("adding python requirements publisher artifact content publisher for language {} and type {}",
+				 artifactType.getLanguage(), artifactType.getType());
                     contentsPublisher.addBinding(artifactType).to(PythonAppsArtifactContentsPublisher.class);
                 }
             }
