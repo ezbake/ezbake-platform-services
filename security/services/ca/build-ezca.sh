@@ -15,6 +15,8 @@
 #   limitations under the License.
 
 
+set -e -x
+
 REPO_ROOT="$(pwd)"
 BUILDROOT="${REPO_ROOT}/BUILD"
 PACKAGEROOT=$(mktemp -d)
@@ -80,13 +82,10 @@ copy_to_build "${REPO_ROOT}/ezpersist" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/service" "${BUILDROOT}"
 copy_to_build "${REPO_ROOT}/ezca-bootstrap" "${BUILDROOT}"
 
-echo "switching to pyenv virtualenv ${PYENV}"
 eval "$(pyenv init -)"
-pyenv shell "${PYENVV}" || env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install "${PYENVV}"
-pyenv shell "${PYENV}" || pyenv virtualenv -f ${PYENVV} ${PYENV} && pyenv shell "${PYENV}"
+pyenv shell ${PYENV}
 
 pip list | grep 'setuptools' || curl -L https://bootstrap.pypa.io/get-pip.py | python
-pip list | grep 'pyinstaller' || (cd ${BUILDROOT}/pyinstaller && python setup.py install && cd -)
 pip list | grep 'zope.interface' || pip install zope.interface
 touch ~/.pyenv/versions/${PYENV}/lib/python2.7/site-packages/zope/__init__.py
 
@@ -101,7 +100,8 @@ install_package ezca "service"
 install_maven "ezca-bootstrap"
 
 echo "Building with pyinstaller"
-LD_LIBRARY_PATH=/home/vagrant/.pyenv/versions/${PYENV}/lib pyinstaller -y "service/bin/ezcaservice.py" --hidden-import=pkg_resources
+
+LD_LIBRARY_PATH=/root/.pyenv/versions/${PYENV}/lib pyinstaller -y "service/bin/ezcaservice.py" --hidden-import=pkg_resources
 
 echo "Packaging"
 mkdir -p "${PACKAGEROOT}"/etc
@@ -117,6 +117,8 @@ EOF
 
 # Copy system config files
 cp -r "${REPO_ROOT}"/scripts/etc/. "${PACKAGEROOT}/etc"
+
+useradd ezca
 
 # Update file permissions
 chmod -R o-rwx "${APP_ROOT}"
