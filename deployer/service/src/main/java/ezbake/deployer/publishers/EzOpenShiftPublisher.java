@@ -351,6 +351,8 @@ public class EzOpenShiftPublisher implements EzPublisher {
                         domainName, getCartridgeForArtifactType(artifact), ApplicationScale.NO_SCALE,
                         calculateGearProfile(artifact.getMetadata().getManifest().getArtifactInfo().getResourceRequirements()));
 
+	log.info("pushing application {}/{}/{}", name, domainName, instanceNum);
+
         Collection<ArtifactDataEntry> injectFiles = Lists.newArrayList();
         ArtifactTypeKey key = new ArtifactTypeKey(artifact.getMetadata().getManifest().getArtifactType(), artifact.getMetadata().getManifest().getArtifactInfo().getLanguage());
         Set<ArtifactContentsPublisher> processors = fileProcessors.get(key);
@@ -369,6 +371,11 @@ public class EzOpenShiftPublisher implements EzPublisher {
 
         // Add files to the git repo
         Set<ArtifactResourceInjector> injectorsToRun = injectors.get(ArtifactHelpers.getTypeKey(artifact));
+	log.debug("getting injectors for {}/{}. type: {}. injectors: {}",
+		     name, 
+		     domainName,
+		     ArtifactHelpers.getTypeKey(artifact),
+		     injectorsToRun);
         if (injectorsToRun != null) {
             List<ArtifactResource> resourceToInject = Lists.newArrayList();
             for (ArtifactResourceInjector injector : injectorsToRun) {
